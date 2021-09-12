@@ -5,6 +5,7 @@
 
 
 import copy
+import numpy as np
 from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
 from sklearn.model_selection import train_test_split
 
@@ -23,18 +24,15 @@ class Logger():
         self.y_test = None
         self.y_pred = None
         self.y_train_pred = None
+
         
         self.hyperparams = hyperparam_dict
-        self.saved = None
     
     def save_log(self, notes:str):
         self.hyperparams["model"] = self.model
         self.hyperparams["notes"] = notes
-        self.saved = self.hyperparams
             
     def train_update(self, model, X, y):
-        
-        self.model = model
         
         self.x_train, self.x_test, self.y_train, self.y_test = \
             train_test_split(X, y, test_size=0.15, random_state=0)
@@ -44,8 +42,9 @@ class Logger():
         self.y_pred = model.predict(self.x_test)
         self.y_train_pred = model.predict(self.x_train)
         
+        
     def record(self):
-        return copy.deepcopy(self.saved)
+        return copy.deepcopy(self.hyperparams)
  
 
 
@@ -66,18 +65,27 @@ class RegressionLogger(Logger):
         self.train_mse = None
         self.train_mae = None
         
-    def train_update(self, model, X, y):
-        super().train_update(self, model, X, y)
+    def train_update(self, model, X, y, suffix=""):
+        super().train_update(model, X, y)
+        self.model = model
         
         self.rsquared = r2_score(self.y_test, self.y_pred)
         self.rmse = np.sqrt(mean_squared_error(self.y_pred, self.y_test))
         self.mse = mean_squared_error(self.y_pred, self.y_test)
         self.mae = mean_absolute_error(self.y_pred, self.y_test)
         
-        self.train_rsquared = r2_score(self.y_test, self.y_pred)
+        self.train_rsquared = r2_score(self.y_train, self.y_train_pred)
         self.train_rmse = np.sqrt(mean_squared_error(self.y_train_pred, self.y_train))
-        self.mse = mean_squared_error(self.y_train_pred, self.y_train)
-        self.mae = mean_absolute_error(self.y_train_pred, self.y_train)
+        self.train_mse = mean_squared_error(self.y_train_pred, self.y_train)
+        self.train_mae = mean_absolute_error(self.y_train_pred, self.y_train)
+
+        self.hyperparams["rsquared" + suffix] = self.rsquared
+        self.hyperparams["rmse" + suffix] = self.rmse
+        self.hyperparams["mae" + suffix] = self.mae
+
+        self.hyperparams["train_rsquared" + suffix] = self.train_rsquared
+        self.hyperparams["train_rmse" + suffix] = self.train_rmse
+        self.hyperparams["train_mae" + suffix] = self.train_mae
             
         
 
