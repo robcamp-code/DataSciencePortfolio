@@ -8,7 +8,7 @@ import copy
 import numpy as np
 from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
 from sklearn.model_selection import train_test_split
-
+from sklearn.base import TransformerMixin, BaseEstimator
 
 # In[56]:
 
@@ -35,7 +35,7 @@ class Logger():
     def train_update(self, model, X, y):
         
         self.x_train, self.x_test, self.y_train, self.y_test = \
-            train_test_split(X, y, test_size=0.15, random_state=0)
+            train_test_split(X, y, test_size=0.15, random_state=42)
         
         model.fit(self.x_train, self.y_train)
         
@@ -87,5 +87,44 @@ class RegressionLogger(Logger):
         self.hyperparams["train_rmse" + suffix] = self.train_rmse
         self.hyperparams["train_mae" + suffix] = self.train_mae
             
+class FuncTransformer(BaseEstimator, TransformerMixin):
+    def __init__(self):
+        pass
+    
+    def fit(self):
+        return self
+    
+    def transform(self, X, y=None):
+        return X
         
+    def log_transform(self, X, column):
+        col = X[:, column]
+        return np.log(col)
+        
+    
+    def exp_transform(self, X, column):
+        col = X[:, log_transformed]
+        return np.exp(col)
+        
+    
+    def poly_transform(self, X, y, column, degree):
+        col = X[:, column]
+        p1 = np.polyfit(col, y, degree)
+        return np.polyval(p1, col)
+        
+    
+    def recip_transform(self, X, column):
+        col = X[:, column]
+        return 1 / col
+        
+class ColSelect(BaseEstimator, TransformerMixin):
+    
+    def __init__(self, cols):
+        self.columns = cols
+        
+    def fit(self, X, y=None):
+        return self
+    
+    def transform(self, X):
+        return X[self.cols]       
 
