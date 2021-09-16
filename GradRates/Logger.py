@@ -35,7 +35,7 @@ class Logger():
     def train_update(self, model, X, y):
         
         self.x_train, self.x_test, self.y_train, self.y_test = \
-            train_test_split(X, y, test_size=0.15, random_state=42)
+            train_test_split(X, y, test_size=0.12, random_state=0)
         
         model.fit(self.x_train, self.y_train)
         
