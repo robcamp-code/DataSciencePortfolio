@@ -15,9 +15,12 @@ def merge_into_mini(dframe, list_of_cols, final_col_name):
     return df_final
 
 def bs_sample(arr):
+    # make a bootstrap sample
     return np.random.choice(arr, size=len(arr))
 
+
 def bs_replicate(arr, func, n):
+    # make an array of replicates
     replicates_list = []
 
     for i in range(n):
@@ -28,6 +31,7 @@ def bs_replicate(arr, func, n):
     return replicates_list
 
 def permutation_sample(arr1, arr2):
+    #make two bootstrapped array from two arrays
     size = len(arr1)
 
     data = np.concatenate((arr1, arr2))
@@ -59,8 +63,10 @@ def diff_of_std(data1, data_2):
     return data_1.std() - data_2.std()
 
 def sample_replicate(arr1, arr2, func, n):
+    # an array of replicates (mean or std), given two arrays are pulling from the same distribution
     replicate_samples = np.empty(n)
-
+    
+    #make a bootstrap array out of two array
     for i in range(n):
         perm1, perm2 = permutation_sample(arr1, arr2)
 
