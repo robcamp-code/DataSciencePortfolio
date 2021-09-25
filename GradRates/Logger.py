@@ -42,9 +42,23 @@ class Logger():
         self.y_pred = model.predict(self.x_test)
         self.y_train_pred = model.predict(self.x_train)
         
+    def train_holdout(self, model, x_train, x_test, y_train, y_test):
+        
+        self.x_train, self.x_test, self.y_train, self.y_test = x_train, x_test, y_train, y_test
+        model.fit(self.x_train, self.y_train)
+        
+        self.y_pred = model.predict(self.x_test)
+        self.y_train_pred = model.predict(self.x_train)
+    
+    def get_residuals(self):
+        
+        return self.y_pred - self.y_test
+        
         
     def record(self):
         return copy.deepcopy(self.hyperparams)
+    
+    
  
 
 
@@ -64,11 +78,8 @@ class RegressionLogger(Logger):
         self.train_rmse = None
         self.train_mse = None
         self.train_mae = None
-        
-    def train_update(self, model, X, y, suffix=""):
-        super().train_update(model, X, y)
-        self.model = model
-        
+    
+    def set_results(self, suffix):
         self.rsquared = r2_score(self.y_test, self.y_pred)
         self.rmse = np.sqrt(mean_squared_error(self.y_pred, self.y_test))
         self.mse = mean_squared_error(self.y_pred, self.y_test)
@@ -86,6 +97,20 @@ class RegressionLogger(Logger):
         self.hyperparams["train_rsquared" + suffix] = self.train_rsquared
         self.hyperparams["train_rmse" + suffix] = self.train_rmse
         self.hyperparams["train_mae" + suffix] = self.train_mae
+        
+    def train_update(self, model, X, y, suffix=""):
+        super().train_update(model, X, y)
+        self.model = model
+        
+        self.set_results(suffix)
+        
+    
+        
+        
+    
+    def train_holdout(self,model, x_train, x_test, y_train, y_test, suffix=""):
+        super().train_holdout(model, x_train, x_test, y_train, y_test)
+        self.set_results(suffix)
             
 class FuncTransformer(BaseEstimator, TransformerMixin):
     def __init__(self):
