@@ -28,7 +28,13 @@ def bs_replicate(arr, func, n):
         replicate = func(sample)
         replicates_list.append(replicate)
 
-    return replicates_list
+    return np.array(replicates_list)
+
+def get_error(arr, func, n):
+    replicate = bs_replicate(arr, func, n)
+    ci = np.percentile(replicate, [2.5, 97.5])
+    return (ci[1] - ci[0]) / 2
+                       
 
 def permutation_sample(arr1, arr2):
     #make two bootstrapped array from two arrays
