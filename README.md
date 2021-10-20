@@ -11,6 +11,10 @@ My target variable would be graduation rates, and the hypothetical problem is as
 
 University X has very low graduation rates and even lower amongst students of color. They are facing immmence pressure from the community and board members and 
 the leadership of the school needs to respond with a data backed explanation for their poor performance along with a data driven plan for improving their future 
-graduation rates. The criteria for a successful project I defined as a prediction within 5% Mean Absolute Error. This felt like a reasonable metric for projecting 
-graduation rates. With this goal in mind, I completed the data science process while uncovering what contributes to a universities performance.
+graduation rates. The criteria for a successful project I defined as a prediction within 5% Mean Absolute Error. This felt like a reasonable metric for predicting 
+graduation rates. With this goal in mind, I attempted to solve this problem with the data science process while giving data driven explanation for why African American students are less likely to graduate. I found that a University's performance in regards to graduation rates can be largely explained 5 features: sector of institution, residential level, price, revenue, SAT scores, and the interactions amongst them.
+
+
+
+
 
