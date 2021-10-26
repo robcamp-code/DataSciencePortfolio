@@ -44,10 +44,6 @@ As you can see the performance is relatively good; however, I fell just shy of m
 
 ## Future Work
 
-The ipeds data has graduation rates dating back much farther than 2018. As I approached the end of this projects, I began to realize that the problem at hand can easily be modeled as a time series. Each school has a series of graduation rates and a series of characterstics that lead to each graduation rate. This makes for the perfect recurrent neural network with the input being the characteristics of the school and the series of predictions being the graduation rates. Also, my target variable should be the change in graduation rates from one year to the next. The problem at hand is what leads to an increase in graduation rates or a decrease in graduation rates, and to fully answer that problem it is best to look at a school's characteristics across time. 
-
-
-
-
+The ipeds data has graduation rates dating back much farther than 2018. As I approached the end of this projects, I began to realize that the problem at hand can easily be modeled as a time series. Each school has a series of graduation rates and a series of characterstics that lead to each graduation rate. This makes for the perfect recurrent neural network with the input being the characteristics of the school and the series of predictions being the graduation rates. Also, my target variable should be the change in graduation rates from one year to the next. The problem is what leads to an increase in graduation rates or a decrease in graduation rates, and to fully answer that problem it is best to look at a school's characteristics across time. 
 
 
